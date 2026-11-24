@@ -1,0 +1,169 @@
+####
+i:Gr/ShowOnlyOutlineIfVoxelCountExceeds = 210000000
+
+s:Ge/World/Material         = "Air"
+d:Ge/World/HLX              = 1.5 m
+d:Ge/World/HLY              = 1.5 m
+d:Ge/World/HLZ              = 1.5 m
+b:Ge/World/Invisible        = "True"
+iv:Tf/PrimariesPerSegment/Values  = 1 10
+dv:Tf/PrimariesPerSegment/Times   = 1 1.00 s
+
+sv:Ph/Default/Modules = 2 "g4em-standard_opt4" "g4optical"
+d:Ph/Default/LowestElectronEnergy = 189 keV
+d:Ph/Default/ForRegion/jaws/CutForGamma = 1 mm
+d:Ph/Default/ForRegion/jaws/CutForElectron = 0.3 mm
+
+i:Ts/NumberOfThreads = 0
+b:Ts/ShowCPUTime = "True"
+i:Ts/ShowHistoryCountAtInterval = 100000
+i:Ts/ParameterizationErrorMaxCount = 1000000000
+i:Ts/ParameterizationErrorMaxReports = 10
+
+Ge/QuitIfOverlapDetected = "False"
+
+s:Ge/Isocenter/Type = "Group"
+s:Ge/Isocenter/Parent = "World"
+#d:Ge/Isocenter/TransX = 0.086351 cm 
+#d:Ge/Isocenter/TransY = -8.029953 cm 
+#d:Ge/Isocenter/TransZ = -62.301370 cm 
+d:Ge/Gantry/RotY = 360.000000 deg 
+
+s:Ge/Gantry/Parent           = "Isocenter"
+s:Ge/Gantry/Type             = "Group"
+
+####################################################
+# Phase Space
+####################################################
+s:Ge/source/Type = "Group"
+s:Ge/source/Parent = "Gantry"
+d:Ge/source/TransZ = 100 cm #for TrueBeam phaseSpaceFile
+
+s:So/phsp/Type = "PhaseSpace"
+s:So/phsp/Component = "source"
+s:So/phsp/PhaseSpaceFileName = "phaseSpace"
+b:So/phsp/PhaseSpacePrecheck = "F"
+i:So/phsp/PhaseSpaceMultipleUse = 0
+i:So/phsp/NumberOfHistoriesInRun = 10
+b:So/phsp/LimitedAssumeFirstParticleIsNewHistory = "True" #if IAEA phsp
+b:So/phsp/LimitedAssumePhotonIsNewHistory = "True" #if IAEA phsp
+b:So/phsp/PhaseSpaceInvertZAxis = "True"
+
+
+####################################################
+# X Jaws
+####################################################
+s:Ge/JawPos/Parent = "Gantry"
+s:Ge/JawPos/Type = "Group"
+
+s:Ge/JawX/Parent         = "JawPos" #IEC_B"
+s:Ge/JawX/Type           = "TsJaws"
+s:Ge/JawX/Material       = "G4_W"
+s:Ge/JawX/Color          = "red"
+s:Ge/JawX/DrawingStyle   = "Solid"
+d:Ge/JawX/LX             = 13.462 cm
+d:Ge/JawX/LY             = 21.844 cm
+d:Ge/JawX/LZ             = 7.77 cm
+dc:Ge/JawX/SourceToUpstreamSurfaceDistance = 27.89 cm
+d:Ge/JawX/SAD            = 100 cm
+d:Ge/JawX/DistSourceToSAD = Ge/JawX/SAD - Ge/JawX/SourceToUpstreamSurfaceDistance cm
+d:Ge/JawX/HalfThickness = 0.5 * Ge/JawX/LZ cm
+d:Ge/JawX/TransZ = Ge/JawX/DistSourceToSAD - Ge/JawX/HalfThickness cm
+d:Ge/JawX/TravelAxisX = 0. deg
+d:Ge/JawX/TravelAxisY = 90. deg
+d:Ge/JawX/RotZ = Ge/JawX/TravelAxisX deg
+s:Ge/JawX/AssignToRegionNamed = "jaws"
+dc:Ge/JawX/NegativeFieldSetting  = -5.000000 cm 
+dc:Ge/JawX/PositiveFieldSetting  = 5.000000 cm 
+
+####################################################
+# Y Jaws
+####################################################
+s:Ge/JawY/Parent         = "JawPos" #IEC_B"
+s:Ge/JawY/Type           = "TsJaws"
+s:Ge/JawY/Material       = "G4_W"
+s:Ge/JawY/Color          = "blue"
+s:Ge/JawY/DrawingStyle   = "Solid"
+d:Ge/JawY/LX             = 11.937 cm
+d:Ge/JawY/LY             = 18.796 cm
+d:Ge/JawY/LZ             = 7.77 cm
+dc:Ge/JawY/SourceToUpstreamSurfaceDistance = 36.61 cm
+d:Ge/JawY/SAD            = 100 cm
+d:Ge/JawY/DistSourceToSAD = Ge/JawY/SAD - Ge/JawY/SourceToUpstreamSurfaceDistance cm
+d:Ge/JawY/HalfThickness = 0.5 * Ge/JawY/LZ cm
+d:Ge/JawY/TransZ = Ge/JawY/DistSourceToSAD - Ge/JawY/HalfThickness cm
+d:Ge/JawY/TravelAxisX = 0. deg
+d:Ge/JawY/TravelAxisY = -90. deg  ### CHANGED FROM +90deg
+d:Ge/JawY/RotZ = Ge/JawY/TravelAxisY deg
+s:Ge/JawY/AssignToRegionNamed = "jaws"
+dc:Ge/JawY/NegativeFieldSetting  = -5.000000 cm 
+dc:Ge/JawY/PositiveFieldSetting  = 5.000000 cm 
+
+##########################################################################
+# Base plate below the jaws
+####################################################
+s:Ge/BasePlate/Parent    = "Gantry"
+s:Ge/BasePlate/Type      = "TsCylinder"
+s:Ge/BasePlate/Material  = "Steel"
+s:Ge/BasePlate/Color     = "yellow"
+d:Ge/BasePlate/RMax      = 30.226 cm
+d:Ge/BasePlate/RMin      = 11.557 cm
+d:Ge/BasePlate/HL        = 0.762 cm
+d:Ge/BasePlate/TransZ = 54.062 cm #54.062
+s:Ge/BasePlate/DrawingStyle = "Solid"
+
+###################################################
+#  MLCs
+####################################################
+s:Ge/MLCPos/Parent = "Gantry"
+s:Ge/MLCPos/Type   = "Group"
+
+s:Ge/MLC/Type = "TsDivergingMLC"
+s:Ge/MLC/Parent = "MLCPos"
+s:Ge/MLC/Material = "G4_W"
+s:Ge/MLC/Color    = "gray"
+s:Ge/MLC/DrawingStyle = "Solid"
+d:Ge/MLC/SAD = 100.0 cm
+d:Ge/MLC/SourceToUpstreamSurfaceDistance = 47.65 cm
+d:Ge/MLC/DistSourceToSAD = Ge/MLC/SAD - Ge/MLC/SourceToUpstreamSurfaceDistance cm
+d:Ge/MLC/MaxLeafOpen = 20 cm
+d:Ge/MLC/Length = 19 cm
+s:Ge/MLC/LeafTravelAxis = "Xb"
+dv:Ge/MLC/LeafWidths = 60 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 2.5 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0 mm
+d:Ge/MLC/Thickness = 6.9 cm
+d:Ge/MLC/HalfThickness = 0.5 * Ge/MLC/Thickness cm
+d:Ge/MLC/TransZ = Ge/MLC/DistSourceToSAD - Ge/MLC/HalfThickness cm
+dv:Ge/MLC/NegativeFieldSetting = 60 5.500 5.500 5.500 5.500 5.500 5.500 5.500 5.500 5.500 5.500 5.500 5.500 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 -5.000 5.500 5.500 5.500 5.500 5.500 5.500 5.500 5.500 5.500 5.500 5.500 5.500 cm
+dv:Ge/MLC/PositiveFieldSetting = 60 5.500 5.500 5.500 5.500 5.500 5.500 5.500 5.500 5.500 5.500 5.500 5.500 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.000 5.500 5.500 5.500 5.500 5.500 5.500 5.500 5.500 5.500 5.500 5.500 5.500 cm
+
+###################################################
+#  Mylar window at treatment head exit
+####################################################
+s:Ge/Tray/Parent    = "Gantry"
+s:Ge/Tray/Type      = "TsBox"
+s:Ge/Tray/Material  = "Mylar"
+s:Ge/Tray/Color     = "green"
+d:Ge/Tray/HLX       = 15 cm
+d:Ge/Tray/HLY       = 15 cm
+d:Ge/Tray/HLZ       = 0.00508 cm
+d:Ge/Tray/TransZ    = 44.3 cm
+
+###################################################
+#  water box 
+####################################################
+
+s:Ge/waterBox/Type     = "TsBox"
+s:Ge/waterBox/Material = "water2"
+s:Ge/waterBox/Parent   = "Gantry"
+d:Ge/waterBox/HLX      = 15 cm
+d:Ge/waterBox/HLY      = 15 cm
+d:Ge/waterBox/HLZ      = 15 cm
+d:Ge/waterBox/TransZ   = -15. cm
+
+b:Ma/water2/EnableOpticalProperties = "True"
+dv:Ma/water2/RefractiveIndex/Energies = 3 2.0 2.5 3.0 eV
+uv:Ma/water2/RefractiveIndex/Values = 3 1.33 1.33 1.33
+d:Ma/water2/Density = 1 g/cm3
+d:Ma/water2/MeanExcitationEnergy=78 eV
+sv:Ma/water2/Components = 2 "Hydrogen" "Oxygen"
+uv:Ma/water2/Fractions = 2  0.1111  0.8889
